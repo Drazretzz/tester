@@ -3,12 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login Form</title>
+  <title>Register ke Supabase</title>
 
   <!-- Font -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 
-  <!-- Style -->
   <style>
     body {
       font-family: 'Poppins', sans-serif;
@@ -75,43 +74,40 @@
 <body>
 
   <div class="form-container">
-    <h2>Login Form</h2>
+    <h2>Register Form</h2>
     <input type="email" id="email" placeholder="Masukkan Email">
     <input type="password" id="password" placeholder="Masukkan Password">
-    <button id="submitBtn">Submit</button>
+    <button id="submitBtn">Kirim ke Supabase</button>
   </div>
 
-  <!-- Supabase Library -->
+  <!-- Supabase -->
   <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 
   <script>
-    // ⚙️ GANTI DENGAN DATA DARI SUPABASE KAMU
-    const SUPABASE_URL = "https://fxybirrqiyvdutxtiaal.supabase.co"; // ganti dengan URL project kamu
-    const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ4eWJpcnJxaXl2ZHV0eHRpYWFsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTg5ODI3OTAsImV4cCI6MjA3NDU1ODc5MH0.nhSqSY_nur_7NdHPsI3n9rNLK4bx_m0EWaN__8Z_svQ"; // ganti dengan anon key kamu
+    // ⚙️ GANTI DENGAN PROJECT KAMU SENDIRI
+    const SUPABASE_URL = "https://fxybirrqiyvdutxtiaal.supabase.co"; // Project URL kamu
+    const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ4eWJpcnJxaXl2ZHV0eHRpYWFsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTg5ODI3OTAsImV4cCI6MjA3NDU1ODc5MH0.nhSqSY_nur_7NdHPsI3n9rNLK4bx_m0EWaN__8Z_svQ"; // anon key kamu
 
     const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-    // Tombol submit
     document.getElementById("submitBtn").addEventListener("click", async () => {
       const email = document.getElementById("email").value;
       const password = document.getElementById("password").value;
 
-      // Validasi input
       if (!email || !password) {
-        alert("❗ Harap isi semua kolom!");
+        alert("⚠️ Harap isi semua kolom!");
         return;
       }
 
-      // Kirim data ke tabel Supabase
       const { data, error } = await supabase
-        .from("Login") // nama tabel kamu
-        .insert([{ Email: email, Password: password }]); // kolom di tabel kamu
+        .from("web")
+        .insert([{ Email: email, Password: password }]);
 
       if (error) {
-        console.error(error);
-        alert("❌ Gagal menyimpan data ke Supabase!");
+        console.error("ERROR DETAIL:", error);
+        alert("❌ Gagal menyimpan data: " + error.message);
       } else {
-        alert("✅ Data berhasil disimpan!");
+        alert("✅ Data berhasil disimpan ke Supabase!");
         document.getElementById("email").value = "";
         document.getElementById("password").value = "";
       }
