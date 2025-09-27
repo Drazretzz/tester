@@ -101,7 +101,7 @@
 
       const { data, error } = await supabase
         .from("web")
-        .insert([{ Email: email, Password: password }]);
+        .insert([{ email: email, password: password }]);
 
       if (error) {
         console.error("ERROR DETAIL:", error);
